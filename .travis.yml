@@ -1,0 +1,22 @@
+addons:
+  sonarcloud:
+    organization: "welldoer-github"
+    token:
+      secure: "692de2b6ef5cafec85b8763dd653906bb38fce33"
+
+language: java
+
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+script:
+  - gradle check
+  - cat /home/travis/build/welldoer/mocoo/build/test-results/test/TEST-net.blogjava.*.xml
+  - sonar-scanner
